@@ -9,13 +9,22 @@ namespace Schedule.DAL
 {
     public interface IRepository
     {
-        Subject Save(Subject subject);
-        WorkWeek Save(WorkWeek workWeek);
-        void Remove(Subject subject);
-        //void Remove(WorkWeek workWeek);//вроде не надо
-        void RemoveDay(Day day);
-        Subject GetSubjectById(Guid id);
-        ICollection<Subject> GetSubjectsByDay(Day workDay);
-        ICollection<Subject> GetAllSubjects(Guid weekId);
+        Subject Save(Subject subject);//+
+
+        Subject Update(Subject subject);//+
+
+        WorkWeek Save(WorkWeek workWeek);//+
+
+        bool RemoveSubject(Guid id);//+
+
+        bool RemoveWorkWeek(Guid id);//+
+
+        bool RemoveDay(Guid id, Day day);//+
+
+        Subject GetSubjectById(Guid id);//+
+
+        WorkWeek GetWorkWeekById(Guid id);//+
+
+        ICollection<WorkWeek> GetAllWorkWeeks();
     }
 }

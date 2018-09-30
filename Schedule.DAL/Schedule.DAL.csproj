@@ -47,19 +47,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\SubjectEntity.cs" />
+    <Compile Include="Entities\WorkWeekEntity.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Repository.cs" />
     <Compile Include="ScheduleContext.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Schedule.Domain\Schedule.Domain.csproj">
       <Project>{557b0be8-3bf6-4953-9436-9900bec62e9e}</Project>
       <Name>Schedule.Domain</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

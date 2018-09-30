@@ -9,10 +9,17 @@ namespace Schedule.BLL.Contracts
 {
     public interface IWorkWeekBLL
     {
-        WorkWeek CreateWorkWeek(string description);
-        void RemoveDay(Day day);
-        ICollection<Subject> GetSubjectsByDay(Day workDay);
-        ICollection<Subject> GetAllSubjects(Guid weekId); //получить все предметы недели
+        WorkWeek CreateWorkWeek(string description);//+
+
+        WorkWeek GetWorkWeekById(Guid id);//+
+
+        bool Remove(Guid id);//++ //удалить неделю
+
+        bool RemoveDay(Guid id, Day day);//++
+
+        ICollection<Subject> GetSubjectsWeek(Guid weekId);//+ //получить все предметы недели
+
+        ICollection<WorkWeek> GetAll();//++ //получить все недели
 
     }
 }

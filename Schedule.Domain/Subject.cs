@@ -8,10 +8,10 @@ namespace Schedule.Domain
 {
     public class Subject
     {
-        public Guid Id { get; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public Day DayOfWeek { get; set; }
-        public DateTime? Time { get; set; }
+        public DateTime Time { get; set; }
         public int AudienceNumber { get; set; }
         public string FullName { get; set; }
         public WorkWeek WorkWeek { get; set; }

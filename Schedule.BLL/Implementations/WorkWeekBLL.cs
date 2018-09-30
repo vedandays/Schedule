@@ -9,7 +9,7 @@ using Schedule.Domain;
 
 namespace Schedule.BLL.Implementations
 {
-    class WorkWeekBLL : IWorkWeekBLL
+    public class WorkWeekBLL : IWorkWeekBLL
     {
         private readonly IRepository repository;
 
@@ -24,19 +24,36 @@ namespace Schedule.BLL.Implementations
             return repository.Save(newWorkWeek);
         }
 
-        public void RemoveDay(Day day)
+        public WorkWeek CreateWorkWeek(WorkWeek workWeek)
         {
-            repository.RemoveDay(day);
+            //var newWorkWeek = new WorkWeek(description);
+            return repository.Save(workWeek);
         }
 
-        public ICollection<Subject> GetSubjectsByDay(Day workDay)
+        public WorkWeek GetWorkWeekById(Guid id)
         {
-            return repository.GetSubjectsByDay(workDay);
+            return repository.GetWorkWeekById(id);
         }
 
-        public ICollection<Subject> GetAllSubjects(Guid weekId)
+        public bool Remove(Guid id)
         {
-            return repository.GetAllSubjects(weekId);
+            return repository.RemoveWorkWeek(id);
         }
+
+        public bool RemoveDay(Guid id, Day day)
+        {
+            return repository.RemoveDay(id, day);
+        }
+
+        public ICollection<Subject> GetSubjectsWeek(Guid weekId)
+        {
+            return repository.GetWorkWeekById(weekId).Subjects;
+        }
+
+        public ICollection<WorkWeek> GetAll()
+        {
+            return repository.GetAllWorkWeeks();
+        }
+
     }
 }

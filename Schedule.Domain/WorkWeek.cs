@@ -8,8 +8,8 @@ namespace Schedule.Domain
 {
     public class WorkWeek
     {
-        public Guid Id { get; }
-        public ICollection<Subject> Subjects { get; }
+        public Guid Id { get; set; }
+        public ICollection<Subject> Subjects { get; } = new List<Subject>();
         public string Description { get; }
 
         public WorkWeek(string description)
