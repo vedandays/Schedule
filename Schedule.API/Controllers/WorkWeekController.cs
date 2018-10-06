@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Schedule.BLL.Contracts;
@@ -15,6 +16,7 @@ using Schedule.DTO;
 
 namespace Schedule.API.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class WorkWeekController : ApiController
     {
         protected internal IWorkWeekBLL workWeekBLL;

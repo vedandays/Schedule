@@ -1,0 +1,13 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 2em;
+  height: 100%;
+  padding: 1em;
+  overflow: overlay;
+  box-sizing: border-box;
+}
+
+.content {
+  height: 100%;
+}

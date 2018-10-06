@@ -1,0 +1,24 @@
+<table *ngIf="subjects.length">
+  <thead>
+  <tr>
+    <td>Subject name</td>
+    <td>Day</td>
+    <td>Time</td>
+    <td>Audience</td>
+    <td>Teacher</td>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let subject of subjects">
+    <td>{{subject.Name}}</td>
+    <td>{{days[subject.DayOfWeek]}}</td>
+    <td>{{getData(subject.Time)}}</td>
+    <td>{{subject.AudienceNumber}}</td>
+    <td>{{subject.FullName}}</td>
+  </tr>
+  </tbody>
+</table>
+
+<div class="empty-block" *ngIf="!subjects.length">
+  This week is empty
+</div>
