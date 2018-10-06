@@ -26,16 +26,19 @@ namespace Schedule.API.Controllers
             subjectBll = new SubjectBLL(repository);
         }
 
+        [ActionName("DefaulAction")]
         public HttpResponseMessage Get(Guid id) //+
         {
             return Request.CreateResponse(new SubjectDTO().MapFromModel(subjectBll.GetSubjectById(id)));
         }
 
+        [ActionName("DefaulAction")]
         public HttpResponseMessage Delete(Guid id) //+
         {
             return Request.CreateResponse(subjectBll.RemoveSubject(id));
         }
 
+        [ActionName("DefaulAction")]
         public void Post([FromBody] JObject jsonResult)//+
         {
             var subjectDto = JsonConvert.DeserializeObject<SubjectDTO>(jsonResult.ToString());
@@ -43,6 +46,7 @@ namespace Schedule.API.Controllers
                 subjectDto.FullName, subjectDto.WorkWeek);
         }
 
+        [ActionName("DefaulAction")]
         public void Put(Guid id, [FromBody] JObject value)//+
         {
             var destDto = JsonConvert.DeserializeObject<SubjectDTO>(value.ToString());

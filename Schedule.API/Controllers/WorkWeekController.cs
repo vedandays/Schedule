@@ -60,6 +60,7 @@ namespace Schedule.API.Controllers
         }
 
         // POST api/values
+        [ActionName("DefaulAction")]
         public JObject Post([FromBody] JObject jsonResult) //+
         {
             WorkWeekDTO workWeekDto = JsonConvert.DeserializeObject<WorkWeekDTO>(jsonResult.ToString());
