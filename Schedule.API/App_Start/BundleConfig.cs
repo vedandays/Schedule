@@ -23,6 +23,14 @@ namespace Schedule.API
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+            
+            bundles.Add(new ScriptBundle("~/bundles/angular").Include(
+                "~/Views/angular/main.js",
+                "~/Views/angular/polyfills.js",
+                "~/Views/angular/runtime.js",
+                "~/Views/angular/styles.js",
+                "~/Views/angular/vendor.js"
+            ));
         }
     }
 }
