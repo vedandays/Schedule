@@ -1,6 +1,6 @@
 <div class="title">Definition subject</div>
 <div class="grid">
-  <div class="fields-grid">
+  <div class="fields-grid" *ngIf="subject">
     <mat-form-field>
       <input matInput placeholder="Subject name" [(ngModel)]="subject.name">
     </mat-form-field>

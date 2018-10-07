@@ -10,15 +10,18 @@ import {DAYS} from '../../constants/days';
 export class SubjectListComponent {
   readonly DAYS = DAYS;
 
+  activeSubject: ISubject;
+
   @Input() subjects: ISubject[];
 
-  @Output() removeSubject: EventEmitter<string> = new EventEmitter();
+  @Output() selectedSubject: EventEmitter<ISubject> = new EventEmitter();
 
   getData(time: string): string {
     return new Date(time).toLocaleTimeString().slice(0, -3);
   }
 
-  removeSubjectHandle(id: string): void {
-    this.removeSubject.emit(id);
+  selectSubjectHandle(subject: ISubject) {
+    this.activeSubject = subject;
+    this.selectedSubject.emit(subject);
   }
 }

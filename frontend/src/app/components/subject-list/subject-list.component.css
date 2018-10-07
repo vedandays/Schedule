@@ -16,3 +16,7 @@ td.id {
 .action {
   padding: 0;
 }
+
+tr.active {
+  background-color: rgba(0,0,0,0.34);
+}

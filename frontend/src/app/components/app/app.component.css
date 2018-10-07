@@ -36,6 +36,13 @@
   justify-items: end;
 }
 
+.subject-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: max-content;
+  justify-self: end;
+}
+
 .actions button {
   text-transform: uppercase;
 }

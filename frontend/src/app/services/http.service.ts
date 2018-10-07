@@ -23,6 +23,10 @@ export class HttpService {
     return this.http.post(`${APP_CONFIG.SERVER_API}/subject`, subject).toPromise();
   }
 
+  updateSubject(id: string, subject: any) {
+    return this.http.put(`${APP_CONFIG.SERVER_API}/subject?id=${id}`, subject).toPromise();
+  }
+
   removeSubject(id: string) {
     return this.http.delete(`${APP_CONFIG.SERVER_API}/subject?id=${id}`).toPromise();
   }
