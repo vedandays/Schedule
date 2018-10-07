@@ -11,7 +11,7 @@ export class SubjectListComponent {
 
   @Input() subjects: ISubject[];
 
-  getData(time: string) {
+  getData(time: string): string {
     return new Date(time).toLocaleTimeString().slice(0, -3);
   }
 }

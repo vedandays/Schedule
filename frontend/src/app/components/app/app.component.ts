@@ -15,10 +15,31 @@ export class AppComponent implements OnInit {
   constructor(private httpService: HttpService) {}
 
   ngOnInit(): void {
-    this.httpService.getAllWorkWeeks().then((data: IWeek[]) => this.weekList = data);
+    this.updateAllWeeks();
   }
 
-  selectWeek(week: IWeek) {
+  updateAllWeeks(): void {
+    this.httpService.getAllWorkWeeks()
+      .then((data: IWeek[]) => this.weekList = data)
+      .catch(() => console.error('Uploading weeks is failed'));
+  }
+
+  selectWeek(week: IWeek): void {
     this.activeWeek = week;
+  }
+
+  saveWeek(description: string): void {
+    this.httpService.saveWeek(description)
+      .then(() => this.updateAllWeeks())
+      .catch(() => console.error('Saving week is failed'));
+  }
+
+  deleteWeek(): void {
+    this.httpService.removeWeek(this.activeWeek.Id)
+      .then(() => {
+        this.weekList = this.weekList.filter(week => week !== this.activeWeek);
+        this.activeWeek = null;
+      })
+      .catch(() => console.error('Removing week is failed'));
   }
 }

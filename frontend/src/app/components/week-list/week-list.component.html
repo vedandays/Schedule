@@ -1,7 +1,12 @@
-<div *ngIf="weekList && weekList.length">
-  <div class="item" [class.active]="week === activeWeek" *ngFor="let week of weekList" (click)="selectWeek(week)">
-    {{week.Description}}
+<div>
+  <div class="title">List of weeks</div>
+  <div class="content">
+    <div *ngIf="weekList && weekList.length">
+      <div class="item" [class.active]="week === activeWeek" *ngFor="let week of weekList" (click)="selectWeek(week)">
+        {{week.Description}}
+      </div>
+    </div>
+
+    <div class="empty-block" *ngIf="weekList && !weekList.length">List of weeks is empty</div>
   </div>
 </div>
-
-<div class="empty-block" *ngIf="weekList && !weekList.length">List of weeks is empty</div>

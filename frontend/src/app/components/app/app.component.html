@@ -1,16 +1,17 @@
 <div class="grid">
 
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>List of week</mat-card-title>
-    </mat-card-header>
-
+  <mat-card class="sidebar">
     <mat-card-content class="content">
       <app-week-list [weekList]="weekList" (selectedWeek)="selectWeek($event)"></app-week-list>
     </mat-card-content>
+
+    <div class="actions">
+      <app-definition-week (saveWeek)="saveWeek($event)"></app-definition-week>
+      <button mat-button (click)="deleteWeek()">REMOVE</button>
+    </div>
   </mat-card>
 
-  <mat-card>
+  <mat-card class="block">
     <mat-card-header>
       <mat-card-title>List of subjects</mat-card-title>
     </mat-card-header>

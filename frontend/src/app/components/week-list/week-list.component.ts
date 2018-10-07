@@ -14,7 +14,7 @@ export class WeekListComponent {
 
   activeWeek: IWeek;
 
-  selectWeek(week: IWeek) {
+  selectWeek(week: IWeek): void {
     this.activeWeek = week;
     this.selectedWeek.emit(week);
   }
