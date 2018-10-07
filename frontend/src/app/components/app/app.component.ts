@@ -11,8 +11,11 @@ export class AppComponent implements OnInit {
 
   weekList: IWeek[];
   activeWeek: IWeek;
+  isOpenSubjectPanel: boolean;
 
-  constructor(private httpService: HttpService) {}
+  constructor(private httpService: HttpService) {
+    this.isOpenSubjectPanel = false;
+  }
 
   ngOnInit(): void {
     this.updateAllWeeks();
@@ -41,5 +44,31 @@ export class AppComponent implements OnInit {
         this.activeWeek = null;
       })
       .catch(() => console.error('Removing week is failed'));
+  }
+
+  saveSubject(subject: any) {
+    subject = {
+      ...subject,
+      workWeek: {...this.activeWeek,
+        Subjects: []
+      }
+    };
+
+    this.httpService.saveSubject(subject)
+      .then(() => {
+        this.updateAllWeeks();
+        this.activeWeek = null;
+      })
+      .catch(() => console.error('Saving subject is failed'));
+  }
+
+  removeSubject(id: string): void {
+    this.httpService.removeSubject(id)
+      .then(() => this.activeWeek.Subjects = this.activeWeek.Subjects.filter(item => item.Id !== id))
+      .catch(() => console.error('Removing subject is failed'));
+  }
+
+  toogleDefinitionSubjectPanel() {
+    this.isOpenSubjectPanel = !this.isOpenSubjectPanel;
   }
 }

@@ -1,20 +1,28 @@
 <table *ngIf="subjects.length">
   <thead>
   <tr>
+    <td>#</td>
     <td>Subject name</td>
     <td>Day</td>
     <td>Time</td>
     <td>Audience</td>
     <td>Teacher</td>
+    <td>Action</td>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let subject of subjects">
+  <tr *ngFor="let subject of subjects; let index = index">
+    <td>{{index + 1}}</td>
     <td>{{subject.Name}}</td>
-    <td>{{days[subject.DayOfWeek]}}</td>
+    <td>{{DAYS[subject.DayOfWeek]}}</td>
     <td>{{getData(subject.Time)}}</td>
     <td>{{subject.AudienceNumber}}</td>
     <td>{{subject.FullName}}</td>
+    <td class="action">
+      <button mat-icon-button (click)="removeSubjectHandle(subject.Id)">
+        <mat-icon title="Remove subject">clear</mat-icon>
+      </button>
+    </td>
   </tr>
   </tbody>
 </table>

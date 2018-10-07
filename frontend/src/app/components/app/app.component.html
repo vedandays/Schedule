@@ -16,9 +16,20 @@
       <mat-card-title>List of subjects</mat-card-title>
     </mat-card-header>
 
-    <mat-card-content class="content">
-      <app-subject-list *ngIf="activeWeek" [subjects]="activeWeek.Subjects"></app-subject-list>
+    <mat-card-content class="content subject-content">
+      <app-subject-list *ngIf="activeWeek" [subjects]="activeWeek.Subjects"
+                        (removeSubject)="removeSubject($event)">
+      </app-subject-list>
+
+      <app-definition-subject *ngIf="isOpenSubjectPanel && activeWeek"
+                              (saveSubject)="saveSubject($event)">
+      </app-definition-subject>
+
       <div class="empty-block" *ngIf="!activeWeek">Please select a week</div>
     </mat-card-content>
+
+    <div class="actions">
+      <button mat-button (click)="toogleDefinitionSubjectPanel()" *ngIf="activeWeek">NEW SUBJECT</button>
+    </div>
   </mat-card>
 </div>

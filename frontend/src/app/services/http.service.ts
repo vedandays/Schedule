@@ -17,4 +17,12 @@ export class HttpService {
   removeWeek(id: string) {
     return this.http.delete(`http://127.0.0.1:5000/api/workWeek?id=${id}`).toPromise();
   }
+
+  saveSubject(subject: any) {
+    return this.http.post(`http://127.0.0.1:5000/api/subject`, subject).toPromise();
+  }
+
+  removeSubject(id: string) {
+    return this.http.delete(`http://127.0.0.1:5000/api/subject?id=${id}`).toPromise();
+  }
 }

@@ -12,3 +12,7 @@ table, th, td {
 td.id {
   width: 3em;
 }
+
+.action {
+  padding: 0;
+}
