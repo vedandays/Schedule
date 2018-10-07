@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpService} from '../../services/http.service';
 import {IWeek} from '../../types/week';
 import {ISubject} from '../../types/subject';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,8 @@ export class AppComponent implements OnInit {
   editableSubject: ISubject;
   isOpenSubjectPanel: boolean;
 
-  constructor(private httpService: HttpService) {
+  constructor(private httpService: HttpService,
+              private toastr: ToastrService) {
     this.isOpenSubjectPanel = false;
   }
 
@@ -27,7 +29,7 @@ export class AppComponent implements OnInit {
   updateAllWeeks(): void {
     this.httpService.getAllWorkWeeks()
       .then((data: IWeek[]) => this.weekList = data)
-      .catch(() => console.error('Uploading weeks is failed'));
+      .catch(() => this.toastr.error('Uploading weeks is failed'));
   }
 
   selectWeek(week: IWeek): void {
@@ -36,8 +38,11 @@ export class AppComponent implements OnInit {
 
   saveWeek(description: string): void {
     this.httpService.saveWeek(description)
-      .then(() => this.updateAllWeeks())
-      .catch(() => console.error('Saving week is failed'));
+      .then(() => {
+        this.updateAllWeeks();
+        this.toastr.success('Week successfully saved');
+      })
+      .catch(() => this.toastr.error('Saving week is failed'));
   }
 
   deleteWeek(): void {
@@ -45,8 +50,9 @@ export class AppComponent implements OnInit {
       .then(() => {
         this.weekList = this.weekList.filter(week => week !== this.activeWeek);
         this.activeWeek = null;
+        this.toastr.success('Week successfully removed');
       })
-      .catch(() => console.error('Removing week is failed'));
+      .catch(() => this.toastr.error('Removing week is failed'));
   }
 
   saveSubject(subject: any) {
@@ -55,8 +61,9 @@ export class AppComponent implements OnInit {
         .then(() => {
           this.updateAllWeeks();
           this.activeWeek = null;
+          this.toastr.success('Subject successfully updated');
         })
-        .catch(() => console.error('Updating subject if failed'));
+        .catch(() => this.toastr.error('Updating subject if failed'));
     } else {
       subject = {
         ...subject,
@@ -69,8 +76,9 @@ export class AppComponent implements OnInit {
         .then(() => {
           this.updateAllWeeks();
           this.activeWeek = null;
+          this.toastr.success('Subject successfully saved');
         })
-        .catch(() => console.error('Saving subject is failed'));
+        .catch(() => this.toastr.error('Saving subject is failed'));
     }
 
     this.isOpenSubjectPanel = false;
@@ -79,8 +87,11 @@ export class AppComponent implements OnInit {
 
   removeSubject(): void {
     this.httpService.removeSubject(this.activeSubject.Id)
-      .then(() => this.activeWeek.Subjects = this.activeWeek.Subjects.filter(item => item.Id !== this.activeSubject.Id))
-      .catch(() => console.error('Removing subject is failed'));
+      .then(() => {
+        this.activeWeek.Subjects = this.activeWeek.Subjects.filter(item => item.Id !== this.activeSubject.Id);
+        this.toastr.success('Subject successfully removed');
+      })
+      .catch(() => this.toastr.error('Removing subject is failed'));
   }
 
   selectSubject(subject: ISubject) {
@@ -93,7 +104,9 @@ export class AppComponent implements OnInit {
   }
 
   editSubject() {
-    this.editableSubject = this.activeSubject;
-    this.isOpenSubjectPanel = true;
+    if (this.activeSubject) {
+      this.editableSubject = this.activeSubject;
+      this.isOpenSubjectPanel = true;
+    }
   }
 }
