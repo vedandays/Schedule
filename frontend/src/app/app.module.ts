@@ -15,18 +15,18 @@ import {HttpClientModule} from '@angular/common/http';
 import {HttpService} from './services/http.service';
 import {WeekListComponent} from './components/week-list/week-list.component';
 import {SubjectListComponent} from './components/subject-list/subject-list.component';
-import {DefinitionWeekComponent} from './components/definition-week/definition-week.component';
 import {FormsModule} from '@angular/forms';
 import {ToastrModule} from 'ngx-toastr';
 import { DefinitionSubjectDialogComponent } from './components/definition-subject-dialog/definition-subject-dialog.component';
+import { DefinitionWeekDialogComponent } from './components/definition-week-dialog/definition-week-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     WeekListComponent,
     SubjectListComponent,
-    DefinitionWeekComponent,
-    DefinitionSubjectDialogComponent
+    DefinitionSubjectDialogComponent,
+    DefinitionWeekDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -42,6 +42,7 @@ import { DefinitionSubjectDialogComponent } from './components/definition-subjec
     ToastrModule.forRoot({ closeButton: true })
   ],
   entryComponents: [
+    DefinitionWeekDialogComponent,
     DefinitionSubjectDialogComponent
   ],
   providers: [HttpService],

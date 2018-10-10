@@ -5,6 +5,7 @@ import {ISubject} from '../../types/subject';
 import {ToastrService} from 'ngx-toastr';
 import {MatDialog} from '@angular/material';
 import {DefinitionSubjectDialogComponent} from '../definition-subject-dialog/definition-subject-dialog.component';
+import {DefinitionWeekDialogComponent} from '../definition-week-dialog/definition-week-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -42,13 +43,20 @@ export class AppComponent implements OnInit {
     this.activeWeek = week;
   }
 
-  saveWeek(description: string): void {
-    this.httpService.saveWeek(description)
-      .then(() => {
-        this.updateAllWeeks();
-        this.toastr.success('Week successfully saved');
-      })
-      .catch(() => this.toastr.error('Saving week is failed'));
+  createWeek() {
+    const dialogRef = this.dialog.open(DefinitionWeekDialogComponent, { width: '500px' });
+
+    dialogRef.afterClosed().toPromise()
+      .then(weekDescription => {
+        if (weekDescription !== '' && weekDescription != null) {
+          this.httpService.saveWeek(weekDescription)
+            .then(() => {
+              this.updateAllWeeks();
+              this.toastr.success('Week successfully saved');
+            })
+            .catch(() => this.toastr.error('Saving week is failed'));
+        }
+      });
   }
 
   deleteWeek(): void {
@@ -80,18 +88,19 @@ export class AppComponent implements OnInit {
       data: null
     });
 
-    dialogRef.afterClosed().toPromise().then(subject => {
-      if (subject !== '') {
-        subject.workWeek = this.activeWeek;
-        this.httpService.saveSubject(subject)
-          .then(() => {
-            this.updateAllWeeks();
-            this.activeWeek = null;
-            this.toastr.success('Subject successfully saved');
-          })
-          .catch(() => this.toastr.error('Saving subject is failed'));
-      }
-    });
+    dialogRef.afterClosed().toPromise()
+      .then(subject => {
+        if (subject !== '' && subject != null) {
+          subject.workWeek = this.activeWeek;
+          this.httpService.saveSubject(subject)
+            .then(() => {
+              this.updateAllWeeks();
+              this.activeWeek = null;
+              this.toastr.success('Subject successfully saved');
+            })
+            .catch(() => this.toastr.error('Saving subject is failed'));
+        }
+      });
   }
 
   editSubject() {

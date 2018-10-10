@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Week definition</h2>
+<mat-dialog-content class="grid">
+  <mat-form-field class="name">
+    <input matInput placeholder="Description" [(ngModel)]="description">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions class="actions">
+  <button mat-button (click)="createWeek()">Create</button>
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

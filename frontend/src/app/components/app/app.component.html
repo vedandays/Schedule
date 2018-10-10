@@ -7,7 +7,7 @@
     </mat-card-content>
 
     <div class="actions">
-      <app-definition-week (saveWeek)="saveWeek($event)"></app-definition-week>
+      <button mat-button (click)="createWeek()">CREATE WEEK</button>
       <button mat-button (click)="deleteWeek()">REMOVE</button>
     </div>
   </mat-card>
