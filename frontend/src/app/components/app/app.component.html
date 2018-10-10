@@ -3,6 +3,7 @@
   <mat-card class="sidebar">
     <mat-card-content class="content">
       <app-week-list [weekList]="weekList" (selectedWeek)="selectWeek($event)"></app-week-list>
+      <div *ngIf="isLoadingWeek">Loading...</div>
     </mat-card-content>
 
     <div class="actions">
@@ -20,10 +21,6 @@
       <app-subject-list *ngIf="activeWeek" [subjects]="activeWeek.Subjects"
                         (selectedSubject)="selectSubject($event)">
       </app-subject-list>
-
-      <app-definition-subject *ngIf="isOpenSubjectPanel && activeWeek" [editableSubject]="editableSubject"
-                              (saveSubject)="saveSubject($event)">
-      </app-definition-subject>
 
       <div class="empty-block" *ngIf="!activeWeek">Please select a week</div>
     </mat-card-content>

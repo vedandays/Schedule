@@ -3,6 +3,8 @@ import {HttpService} from '../../services/http.service';
 import {IWeek} from '../../types/week';
 import {ISubject} from '../../types/subject';
 import {ToastrService} from 'ngx-toastr';
+import {MatDialog} from '@angular/material';
+import {DefinitionSubjectDialogComponent} from '../definition-subject-dialog/definition-subject-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -14,12 +16,12 @@ export class AppComponent implements OnInit {
   weekList: IWeek[];
   activeWeek: IWeek;
   activeSubject: ISubject;
-  editableSubject: ISubject;
-  isOpenSubjectPanel: boolean;
+  isLoadingWeek: boolean;
 
-  constructor(private httpService: HttpService,
+  constructor(public dialog: MatDialog,
+              private httpService: HttpService,
               private toastr: ToastrService) {
-    this.isOpenSubjectPanel = false;
+    this.isLoadingWeek = false;
   }
 
   ngOnInit(): void {
@@ -27,8 +29,12 @@ export class AppComponent implements OnInit {
   }
 
   updateAllWeeks(): void {
+    this.isLoadingWeek = true;
     this.httpService.getAllWorkWeeks()
-      .then((data: IWeek[]) => this.weekList = data)
+      .then((data: IWeek[]) => {
+        this.weekList = data;
+        this.isLoadingWeek = false;
+      })
       .catch(() => this.toastr.error('Uploading weeks is failed'));
   }
 
@@ -55,36 +61,6 @@ export class AppComponent implements OnInit {
       .catch(() => this.toastr.error('Removing week is failed'));
   }
 
-  saveSubject(subject: any) {
-    if (this.editableSubject) {
-      this.httpService.updateSubject(this.editableSubject.Id, subject)
-        .then(() => {
-          this.updateAllWeeks();
-          this.activeWeek = null;
-          this.toastr.success('Subject successfully updated');
-        })
-        .catch(() => this.toastr.error('Updating subject if failed'));
-    } else {
-      subject = {
-        ...subject,
-        workWeek: {...this.activeWeek,
-          Subjects: []
-        }
-      };
-
-      this.httpService.saveSubject(subject)
-        .then(() => {
-          this.updateAllWeeks();
-          this.activeWeek = null;
-          this.toastr.success('Subject successfully saved');
-        })
-        .catch(() => this.toastr.error('Saving subject is failed'));
-    }
-
-    this.isOpenSubjectPanel = false;
-    this.editableSubject = null;
-  }
-
   removeSubject(): void {
     this.httpService.removeSubject(this.activeSubject.Id)
       .then(() => {
@@ -99,14 +75,45 @@ export class AppComponent implements OnInit {
   }
 
   createNewSubject() {
-    this.editableSubject = null;
-    this.isOpenSubjectPanel = true;
+    const dialogRef = this.dialog.open(DefinitionSubjectDialogComponent, {
+      width: '500px',
+      data: null
+    });
+
+    dialogRef.afterClosed().toPromise().then(subject => {
+      if (subject !== '') {
+        subject.workWeek = this.activeWeek;
+        this.httpService.saveSubject(subject)
+          .then(() => {
+            this.updateAllWeeks();
+            this.activeWeek = null;
+            this.toastr.success('Subject successfully saved');
+          })
+          .catch(() => this.toastr.error('Saving subject is failed'));
+      }
+    });
   }
 
   editSubject() {
     if (this.activeSubject) {
-      this.editableSubject = this.activeSubject;
-      this.isOpenSubjectPanel = true;
+      const dialogRef = this.dialog.open(DefinitionSubjectDialogComponent, {
+        width: '500px',
+        data: this.activeSubject
+      });
+
+      dialogRef.afterClosed().toPromise().then(subject => {
+        if (subject !== '' && subject != null) {
+          this.httpService.updateSubject(this.activeSubject.Id, subject)
+            .then(() => {
+              this.updateAllWeeks();
+              this.activeWeek = null;
+              this.toastr.success('Subject successfully updated');
+            })
+            .catch(() => this.toastr.error('Updating subject if failed'));
+        }
+      });
+    } else {
+      this.toastr.info('You should choose subject for editing');
     }
   }
 }

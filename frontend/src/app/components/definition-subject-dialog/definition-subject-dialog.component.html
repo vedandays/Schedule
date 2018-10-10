@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Subject definition</h2>
+<mat-dialog-content class="grid">
+  <mat-form-field class="name">
+    <input matInput placeholder="Subject name" [(ngModel)]="subject.name">
+  </mat-form-field>
+  <mat-form-field class="day">
+    <mat-select placeholder="Day" [(ngModel)]="subject.dayOfWeek">
+      <mat-option *ngFor="let day of DAYS; let index = index" [value]="index">{{day}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="time">
+    <input matInput type="time" placeholder="Time" [(ngModel)]="subject.time">
+  </mat-form-field>
+  <mat-form-field class="audience">
+    <input matInput type="number" placeholder="Audience" [(ngModel)]="subject.audienceNumber">
+  </mat-form-field>
+  <mat-form-field class="teacher">
+    <input matInput placeholder="Teacher" [(ngModel)]="subject.FullName">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions class="actions">
+  <button mat-button (click)="saveSubject()">Save</button>
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>
