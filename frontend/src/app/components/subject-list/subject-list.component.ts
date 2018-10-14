@@ -12,9 +12,13 @@ export class SubjectListComponent {
 
   activeSubject: ISubject;
 
-  @Input() subjects: ISubject[];
+  @Input() subjectList: ISubject[];
 
   @Output() selectedSubject: EventEmitter<ISubject> = new EventEmitter();
+
+  constructor() {
+    this.subjectList = [];
+  }
 
   getData(time: string): string {
     return new Date(time).toLocaleTimeString().slice(0, -3);

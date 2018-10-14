@@ -18,7 +18,7 @@
     </mat-card-header>
 
     <mat-card-content class="content subject-content">
-      <app-subject-list *ngIf="activeWeek" [subjects]="activeWeek.Subjects"
+      <app-subject-list *ngIf="activeWeek" [subjectList]="activeWeek.Subjects"
                         (selectedSubject)="selectSubject($event)">
       </app-subject-list>
 
