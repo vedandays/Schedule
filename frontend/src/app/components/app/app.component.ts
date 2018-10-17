@@ -59,20 +59,20 @@ export class AppComponent implements OnInit {
       });
   }
 
-  deleteWeek(): void {
-    this.httpService.removeWeek(this.activeWeek.Id)
+  deleteWeek(weekId: string): void {
+    this.httpService.removeWeek(weekId)
       .then(() => {
-        this.weekList = this.weekList.filter(week => week !== this.activeWeek);
+        this.weekList = this.weekList.filter(week => week.Id !== weekId);
         this.activeWeek = null;
         this.toastr.success('Week successfully removed');
       })
       .catch(() => this.toastr.error('Removing week is failed'));
   }
 
-  removeSubject(): void {
-    this.httpService.removeSubject(this.activeSubject.Id)
+  removeSubject(week: IWeek, subjectId: string): void {
+    this.httpService.removeSubject(subjectId)
       .then(() => {
-        this.activeWeek.Subjects = this.activeWeek.Subjects.filter(item => item.Id !== this.activeSubject.Id);
+        week.Subjects = week.Subjects.filter(item => item.Id !== subjectId);
         this.toastr.success('Subject successfully removed');
       })
       .catch(() => this.toastr.error('Removing subject is failed'));
