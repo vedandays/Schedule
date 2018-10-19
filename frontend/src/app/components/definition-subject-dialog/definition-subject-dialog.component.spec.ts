@@ -81,17 +81,4 @@ describe('DefinitionSubjectDialogComponent', () => {
       FullName: 'TestTeacher2'
     });
   });
-
-  it('should to display on view when data is changed',  () => {
-    const dialogRef = dialog.open(DefinitionSubjectDialogComponent, null);
-
-    const component = dialogRef.componentInstance;
-    component.subject = {
-      name: 'SomeSubject',
-      dayOfWeek: 5,
-      time: '11:00',
-      audienceNumber: 123,
-      FullName: 'SomeTeacher'
-    };
-  });
 });
