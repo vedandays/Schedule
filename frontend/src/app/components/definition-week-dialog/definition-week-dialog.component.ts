@@ -10,7 +10,9 @@ export class DefinitionWeekDialogComponent {
 
   description: string;
 
-  constructor(public dialogRef: MatDialogRef<DefinitionWeekDialogComponent>) { }
+  constructor(public dialogRef: MatDialogRef<DefinitionWeekDialogComponent>) {
+    this.description = '';
+  }
 
   createWeek() {
     this.dialogRef.close(this.description);

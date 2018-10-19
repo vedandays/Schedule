@@ -5,6 +5,7 @@ import {MatDialogModule} from '@angular/material';
 import {HttpService} from '../../services/http.service';
 import {ToastrModule} from 'ngx-toastr';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {IWeek} from '../../types/week';
 
 const mockWeekList = [
   {
@@ -83,9 +84,9 @@ describe('AppComponent', () => {
   });
 
   it('should to set active week', () => {
-    component.selectWeek(mockWeekList[0]);
+    component.selectWeek(mockWeekList[0] as IWeek);
     expect(component.activeWeek).toEqual(mockWeekList[0]);
-    component.selectWeek(mockWeekList[1]);
+    component.selectWeek(mockWeekList[1] as IWeek);
     expect(component.activeWeek).toEqual(mockWeekList[1]);
   });
 
@@ -131,6 +132,26 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     expect(component.activeSubject).toEqual(subject);
   });
+
+  it('should to create new subject', async () => {
+    const week = component.weekList[1];
+    const subject = {
+      Id: 'abc',
+      Name: 'Added Subject',
+      DayOfWeek: 0,
+      Time: '2018-10-13T00:00:00',
+      AudienceNumber: 123,
+      FullName: 'TestTeacher',
+      WorkWeek: null
+    };
+
+    let findWeek = component.weekList.find(item => item.Id === subject.Id);
+    expect(findWeek).toBeUndefined();
+
+    await component.createSubject(week, subject);
+    findWeek = component.weekList.find(item => item.Id === subject.Id);
+    expect(findWeek).toBeUndefined();
+  });
 });
 
 class HttpServiceStub {
@@ -139,6 +160,14 @@ class HttpServiceStub {
   }
 
   removeWeek() {
+    return new Promise(res => res());
+  }
+
+  saveSubject(subject: any) {
+    return new Promise(res => res());
+  }
+
+  updateSubject(id: string, subject: any) {
     return new Promise(res => res());
   }
 

@@ -7,7 +7,7 @@
     </mat-card-content>
 
     <div class="actions">
-      <button mat-button (click)="createWeek()">CREATE WEEK</button>
+      <button mat-button (click)="openDialogForCreateWeek()">CREATE WEEK</button>
       <button mat-button (click)="deleteWeek(activeWeek.Id)">REMOVE</button>
     </div>
   </mat-card>
@@ -26,8 +26,8 @@
     </mat-card-content>
 
     <div class="subject-actions">
-      <button mat-button (click)="createNewSubject()" *ngIf="activeWeek">NEW SUBJECT</button>
-      <button mat-button (click)="editSubject()" *ngIf="activeWeek">EDIT</button>
+      <button mat-button (click)="openDialogForCreateSubject()" *ngIf="activeWeek">NEW SUBJECT</button>
+      <button mat-button (click)="openDialogForEditSubject()" *ngIf="activeWeek">EDIT</button>
       <button mat-button (click)="removeSubject(activeWeek, activeSubject.Id)" *ngIf="activeWeek">REMOVE</button>
     </div>
   </mat-card>

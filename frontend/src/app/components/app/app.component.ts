@@ -29,32 +29,17 @@ export class AppComponent implements OnInit {
     this.updateAllWeeks();
   }
 
-  updateAllWeeks(): void {
-    this.isLoadingWeek = true;
-    this.httpService.getAllWorkWeeks()
-      .then((data: IWeek[]) => {
-        this.weekList = data;
-        this.isLoadingWeek = false;
-      })
-      .catch(() => this.toastr.error('Uploading weeks is failed'));
-  }
-
   selectWeek(week: IWeek): void {
     this.activeWeek = week;
   }
 
-  createWeek() {
+  openDialogForCreateWeek() {
     const dialogRef = this.dialog.open(DefinitionWeekDialogComponent, { width: '500px' });
 
     dialogRef.afterClosed().toPromise()
       .then(weekDescription => {
         if (weekDescription !== '' && weekDescription != null) {
-          this.httpService.saveWeek(weekDescription)
-            .then(() => {
-              this.updateAllWeeks();
-              this.toastr.success('Week successfully saved');
-            })
-            .catch(() => this.toastr.error('Saving week is failed'));
+          this.createWeek(weekDescription);
         }
       });
   }
@@ -82,7 +67,7 @@ export class AppComponent implements OnInit {
     this.activeSubject = subject;
   }
 
-  createNewSubject() {
+  openDialogForCreateSubject() {
     const dialogRef = this.dialog.open(DefinitionSubjectDialogComponent, {
       width: '500px',
       data: null
@@ -91,38 +76,66 @@ export class AppComponent implements OnInit {
     dialogRef.afterClosed().toPromise()
       .then(subject => {
         if (subject !== '' && subject != null) {
-          subject.workWeek = this.activeWeek;
-          this.httpService.saveSubject(subject)
-            .then(() => {
-              this.updateAllWeeks();
-              this.activeWeek = null;
-              this.toastr.success('Subject successfully saved');
-            })
-            .catch(() => this.toastr.error('Saving subject is failed'));
+          this.createSubject(this.activeWeek, subject);
         }
       });
   }
 
-  editSubject() {
+  openDialogForEditSubject() {
     if (this.activeSubject) {
       const dialogRef = this.dialog.open(DefinitionSubjectDialogComponent, {
         width: '500px',
         data: this.activeSubject
       });
 
-      dialogRef.afterClosed().toPromise().then(subject => {
-        if (subject !== '' && subject != null) {
-          this.httpService.updateSubject(this.activeSubject.Id, subject)
-            .then(() => {
-              this.updateAllWeeks();
-              this.activeWeek = null;
-              this.toastr.success('Subject successfully updated');
-            })
-            .catch(() => this.toastr.error('Updating subject if failed'));
-        }
-      });
+      dialogRef.afterClosed().toPromise()
+        .then(subject => {
+          if (subject !== '' && subject != null) {
+            this.updateSubject(this.activeSubject.Id, subject);
+          }
+        });
     } else {
       this.toastr.info('You should choose subject for editing');
     }
+  }
+
+  createSubject(week: IWeek, subject: ISubject) {
+    subject.WorkWeek = week;
+    this.httpService.saveSubject(subject)
+      .then(() => {
+        this.updateAllWeeks();
+        this.activeWeek = null;
+        this.toastr.success('Subject successfully saved');
+      })
+      .catch(() => this.toastr.error('Saving subject is failed'));
+  }
+
+  private createWeek(description: string) {
+    this.httpService.saveWeek({ description })
+      .then(() => {
+        this.updateAllWeeks();
+        this.toastr.success('Week successfully saved');
+      })
+      .catch(() => this.toastr.error('Saving week is failed'));
+  }
+
+  private updateAllWeeks() {
+    this.isLoadingWeek = true;
+    this.httpService.getAllWorkWeeks()
+      .then((data: IWeek[]) => {
+        this.weekList = data;
+        this.isLoadingWeek = false;
+      })
+      .catch(() => this.toastr.error('Uploading weeks is failed'));
+  }
+
+  private updateSubject(subjectId: string, subject) {
+    this.httpService.updateSubject(subjectId, subject)
+      .then(() => {
+        this.updateAllWeeks();
+        this.activeWeek = null;
+        this.toastr.success('Subject successfully updated');
+      })
+      .catch(() => this.toastr.error('Updating subject if failed'));
   }
 }

@@ -11,8 +11,8 @@ export class HttpService {
     return this.http.get(`${APP_CONFIG.SERVER_API}/workWeek`).toPromise();
   }
 
-  saveWeek(description: string) {
-    return this.http.post(`${APP_CONFIG.SERVER_API}/workWeek`, { description }).toPromise();
+  saveWeek(week: any) {
+    return this.http.post(`${APP_CONFIG.SERVER_API}/workWeek`, week).toPromise();
   }
 
   removeWeek(id: string) {

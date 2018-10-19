@@ -10,8 +10,8 @@ import {DAYS} from '../../constants/days';
 export class DefinitionSubjectDialogComponent {
   readonly DAYS = DAYS;
 
-  constructor(public dialogRef: MatDialogRef<DefinitionSubjectDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public subject: any) {
+  constructor(@Inject(MAT_DIALOG_DATA) public subject: any,
+              public dialogRef: MatDialogRef<DefinitionSubjectDialogComponent>) {
     this.subject = subject
       ? {
           name: this.subject.Name,
