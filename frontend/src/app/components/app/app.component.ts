@@ -67,36 +67,27 @@ export class AppComponent implements OnInit {
     this.activeSubject = subject;
   }
 
-  openDialogForCreateSubject() {
+  openDialogSubject(isEdit: boolean) {
+    if (isEdit && !this.activeSubject) {
+      this.toastr.info('You should choose subject for editing');
+      return;
+    }
+
     const dialogRef = this.dialog.open(DefinitionSubjectDialogComponent, {
       width: '500px',
-      data: null
+      data: isEdit ? this.activeSubject : null
     });
 
     dialogRef.afterClosed().toPromise()
       .then(subject => {
         if (subject !== '' && subject != null) {
-          this.createSubject(this.activeWeek, subject);
+          if (isEdit) {
+            this.updateSubject(this.activeSubject.Id, subject);
+          } else {
+            this.createSubject(this.activeWeek, subject);
+          }
         }
       });
-  }
-
-  openDialogForEditSubject() {
-    if (this.activeSubject) {
-      const dialogRef = this.dialog.open(DefinitionSubjectDialogComponent, {
-        width: '500px',
-        data: this.activeSubject
-      });
-
-      dialogRef.afterClosed().toPromise()
-        .then(subject => {
-          if (subject !== '' && subject != null) {
-            this.updateSubject(this.activeSubject.Id, subject);
-          }
-        });
-    } else {
-      this.toastr.info('You should choose subject for editing');
-    }
   }
 
   createSubject(week: IWeek, subject: ISubject) {

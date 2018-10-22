@@ -123,7 +123,7 @@ module.exports = ".grid {\n  display: -ms-grid;\n  display: grid;\n  -ms-grid-co
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"grid\">\n\n  <mat-card class=\"sidebar\">\n    <mat-card-content class=\"content\">\n      <app-week-list [weekList]=\"weekList\" (selectedWeek)=\"selectWeek($event)\"></app-week-list>\n      <div *ngIf=\"isLoadingWeek\">Loading...</div>\n    </mat-card-content>\n\n    <div class=\"actions\">\n      <button mat-button (click)=\"openDialogForCreateWeek()\">CREATE WEEK</button>\n      <button mat-button (click)=\"deleteWeek(activeWeek.Id)\">REMOVE</button>\n    </div>\n  </mat-card>\n\n  <mat-card class=\"block\">\n    <mat-card-header>\n      <mat-card-title>List of subjects</mat-card-title>\n    </mat-card-header>\n\n    <mat-card-content class=\"content subject-content\">\n      <app-subject-list *ngIf=\"activeWeek\" [subjectList]=\"activeWeek.Subjects\"\n                        (selectedSubject)=\"selectSubject($event)\">\n      </app-subject-list>\n\n      <div class=\"empty-block\" *ngIf=\"!activeWeek\">Please select a week</div>\n    </mat-card-content>\n\n    <div class=\"subject-actions\">\n      <button mat-button (click)=\"openDialogForCreateSubject()\" *ngIf=\"activeWeek\">NEW SUBJECT</button>\n      <button mat-button (click)=\"openDialogForEditSubject()\" *ngIf=\"activeWeek\">EDIT</button>\n      <button mat-button (click)=\"removeSubject(activeWeek, activeSubject.Id)\" *ngIf=\"activeWeek\">REMOVE</button>\n    </div>\n  </mat-card>\n</div>\n"
+module.exports = "<div class=\"grid\">\n\n  <mat-card class=\"sidebar\">\n    <mat-card-content class=\"content\">\n      <app-week-list [weekList]=\"weekList\" (selectedWeek)=\"selectWeek($event)\"></app-week-list>\n      <div *ngIf=\"isLoadingWeek\">Loading...</div>\n    </mat-card-content>\n\n    <div class=\"actions\">\n      <button mat-button (click)=\"openDialogForCreateWeek()\">CREATE WEEK</button>\n      <button mat-button (click)=\"deleteWeek(activeWeek.Id)\">REMOVE</button>\n    </div>\n  </mat-card>\n\n  <mat-card class=\"block\">\n    <mat-card-header>\n      <mat-card-title>List of subjects</mat-card-title>\n    </mat-card-header>\n\n    <mat-card-content class=\"content subject-content\">\n      <app-subject-list *ngIf=\"activeWeek\" [subjectList]=\"activeWeek.Subjects\"\n                        (selectedSubject)=\"selectSubject($event)\">\n      </app-subject-list>\n\n      <div class=\"empty-block\" *ngIf=\"!activeWeek\">Please select a week</div>\n    </mat-card-content>\n\n    <div class=\"subject-actions\">\n      <button mat-button (click)=\"openDialogSubject(false)\" *ngIf=\"activeWeek\">NEW SUBJECT</button>\n      <button mat-button (click)=\"openDialogSubject(true)\" *ngIf=\"activeWeek\">EDIT</button>\n      <button mat-button (click)=\"removeSubject(activeWeek, activeSubject.Id)\" *ngIf=\"activeWeek\">REMOVE</button>\n    </div>\n  </mat-card>\n</div>\n"
 
 /***/ }),
 
@@ -203,36 +203,27 @@ var AppComponent = /** @class */ (function () {
     AppComponent.prototype.selectSubject = function (subject) {
         this.activeSubject = subject;
     };
-    AppComponent.prototype.openDialogForCreateSubject = function () {
+    AppComponent.prototype.openDialogSubject = function (isEdit) {
         var _this = this;
+        if (isEdit && !this.activeSubject) {
+            this.toastr.info('You should choose subject for editing');
+            return;
+        }
         var dialogRef = this.dialog.open(_definition_subject_dialog_definition_subject_dialog_component__WEBPACK_IMPORTED_MODULE_4__["DefinitionSubjectDialogComponent"], {
             width: '500px',
-            data: null
+            data: isEdit ? this.activeSubject : null
         });
         dialogRef.afterClosed().toPromise()
             .then(function (subject) {
             if (subject !== '' && subject != null) {
-                _this.createSubject(_this.activeWeek, subject);
-            }
-        });
-    };
-    AppComponent.prototype.openDialogForEditSubject = function () {
-        var _this = this;
-        if (this.activeSubject) {
-            var dialogRef = this.dialog.open(_definition_subject_dialog_definition_subject_dialog_component__WEBPACK_IMPORTED_MODULE_4__["DefinitionSubjectDialogComponent"], {
-                width: '500px',
-                data: this.activeSubject
-            });
-            dialogRef.afterClosed().toPromise()
-                .then(function (subject) {
-                if (subject !== '' && subject != null) {
+                if (isEdit) {
                     _this.updateSubject(_this.activeSubject.Id, subject);
                 }
-            });
-        }
-        else {
-            this.toastr.info('You should choose subject for editing');
-        }
+                else {
+                    _this.createSubject(_this.activeWeek, subject);
+                }
+            }
+        });
     };
     AppComponent.prototype.createSubject = function (week, subject) {
         var _this = this;
