@@ -253,8 +253,8 @@
     <Content Include="Views\angular\index.html" />
     <Content Include="Views\angular\main.js" />
     <Content Include="Views\angular\main.js.map" />
-    <Content Include="Views\angular\polyfill.js" />
-    <Content Include="Views\angular\polyfill.js.map" />
+    <Content Include="Views\angular\polyfills.js" />
+    <Content Include="Views\angular\polyfills.js.map" />
     <Content Include="Views\angular\runtime.js" />
     <Content Include="Views\angular\runtime.js.map" />
     <Content Include="Views\angular\styles.js" />
