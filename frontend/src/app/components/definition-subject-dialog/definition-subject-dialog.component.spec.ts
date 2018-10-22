@@ -1,4 +1,4 @@
-import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
+import {async, inject, TestBed} from '@angular/core/testing';
 
 import { DefinitionSubjectDialogComponent } from './definition-subject-dialog.component';
 import {MatDialog, MatDialogModule, MatInputModule, MatSelectModule} from '@angular/material';
@@ -10,7 +10,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 describe('DefinitionSubjectDialogComponent', () => {
   let dialog: MatDialog;
   let overlayContainer: OverlayContainer;
-  let fixture: ComponentFixture<DefinitionSubjectDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
